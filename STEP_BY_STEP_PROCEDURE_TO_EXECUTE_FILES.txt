@@ -1,0 +1,33 @@
+====================************* WELCOME *************====================
+
+STEP - 1 :-
+==========
+CREATE USERS USING 
+
+file :- SQL_FILES/01_USERS.SQL 
+
+
+
+STEP - 2 :-
+==========
+CREATE OPERATIONAL DATABASE AND  POPULATING DATA INTO DATABASE USING
+
+file :- SQL_FILES/02_OPERATIONAL_DB.SQL
+
+
+STEP - 3 :-
+==========
+CREATE DECISIONAL DATABASE AND  POPULATING DATA INTO DATABASE USING
+
+FILE :- SQL_FILES/03_DECISIONAL_DB.SQL
+
+
+STEP - 4 :-
+==========
+SELECTION BETWEEN TWO DATES DATA FROM "PURCHASE TABLE" FROM DECISIONAL DATABASE
+
+FILE:- SQL_FILES/04_SELECTION_BWTN_TWO_DATES.SQL
+
+====================************* END *************====================
+
+

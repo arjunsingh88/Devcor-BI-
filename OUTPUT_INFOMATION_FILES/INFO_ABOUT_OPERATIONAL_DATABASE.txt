@@ -1,0 +1,1520 @@
+
+SQL> CREATE TABLE COUNTRY
+  2  (
+  3      COUNTRY_ID  VARCHAR(5)   NOT NULL,
+  4      COUNTRY_NAME  VARCHAR2(62) ,
+  5      CONSTRAINT pk_country PRIMARY KEY (COUNTRY_ID)
+  6  );
+
+Table created.
+
+SQL>
+SQL> --===========================================================================================
+SQL> --   Table : REGION
+SQL> --===========================================================================================
+SQL> CREATE TABLE REGION
+  2  (
+  3      REGION_ID  NUMBER(9)  NOT NULL,
+  4      REGION_NAME  VARCHAR2(62) ,
+  5      COUNTRY_ID VARCHAR(5),
+  6      CONSTRAINT pk_region PRIMARY KEY (REGION_ID)
+  7  );
+
+Table created.
+
+SQL>
+SQL>
+SQL> --===========================================================================================
+SQL> --   Table : DEPARTMENT
+SQL> --===========================================================================================
+SQL> CREATE TABLE DEPARTMENT
+  2  (
+  3      DEPARTMENT_ID  NUMBER(9)  NOT NULL,
+  4      DEPARTMENT_NAME VARCHAR2(62) ,
+  5      REGION_ID  NUMBER(9),
+  6      CONSTRAINT pk_department PRIMARY KEY (DEPARTMENT_ID)
+  7  );
+
+Table created.
+
+SQL>
+SQL>
+SQL>
+SQL> --===========================================================================================
+SQL> --   Table : CITY
+SQL> --===========================================================================================
+SQL> CREATE TABLE CITY
+  2  (
+  3  ZIP_CODE NUMBER(9) NOT NULL,
+  4  CITY_NAME  VARCHAR2(10) ,
+  5  DEPARTMENT_ID  NUMBER(9),
+  6  CONSTRAINT pk_zip_city PRIMARY KEY (ZIP_CODE, CITY_NAME)
+  7  );
+
+Table created.
+
+SQL>
+SQL> --===========================================================================================
+SQL> --   Table : CLIENT
+SQL> --===========================================================================================
+SQL> CREATE TABLE CLIENTS
+  2  (
+  3      CLIENT_ID  NUMBER(9)   NOT NULL,
+  4      FIRST_NAME   VARCHAR(62)   NOT NULL,
+  5      LAST_NAME  VARCHAR(62)   NOT NULL,
+  6      BIRTHDATE  DATE,
+  7      GENDER   VARCHAR2(5) ,
+  8      ZIP_CODE NUMBER(9),
+  9      CITY_NAME  VARCHAR2(10) ,
+ 10      CONSTRAINT  pk_clients PRIMARY KEY (CLIENT_ID)
+ 11  );
+
+Table created.
+
+SQL>
+SQL> --===========================================================================================
+SQL> --   Table : PRODUCT
+SQL> --===========================================================================================
+SQL> CREATE TABLE PRODUCT
+  2  (
+  3      PRODUCT_ID  NUMBER(9)  NOT NULL,
+  4      PROD_DESCRIPTION   VARCHAR2(30)   NOT NULL,
+  5      PROD_PRICE   NUMBER(9)  NOT NULL,
+  6      PROD_TYPE  VARCHAR2(9) NOT NULL,
+  7      CONSTRAINT pk_product_id PRIMARY KEY (PRODUCT_ID)
+  8  );
+
+Table created.
+
+SQL>
+SQL> --===========================================================================================
+SQL> --   Table : PURCHASE
+SQL> --===========================================================================================
+SQL> CREATE TABLE PURCHASE
+  2  (
+  3      QUANTITY  NUMBER(9)   NOT NULL,
+  4      ZIP_CODE NUMBER(9),
+  5      CITY_NAME  VARCHAR2(10),
+  6      CLIENT_ID  NUMBER(9),
+  7      PRODUCT_ID  NUMBER(9),
+  8      TIME_STAMP  TIMESTAMP  NOT NULL
+  9  );
+
+Table created.
+
+SQL>
+SQL>
+SQL>
+SQL> --===========================================================================================
+SQL> --   FOREIGN KEYS : ALL TABLES
+SQL> --   COUNTRY, REGION, DEPARTMENT, CITY, CLIENT, DELIVERY, PRODUCT
+SQL> --===========================================================================================
+SQL>
+SQL> ALTER TABLE REGION ADD CONSTRAINT fk1_region FOREIGN KEY (COUNTRY_ID)
+  2         REFERENCES COUNTRY (COUNTRY_ID);
+
+Table altered.
+
+SQL> ---------------------------------------------------------------------------------------
+SQL> ALTER TABLE DEPARTMENT ADD CONSTRAINT fk1_department  FOREIGN KEY (REGION_ID)
+  2         REFERENCES REGION (REGION_ID);
+
+Table altered.
+
+SQL> ---------------------------------------------------------------------------------------
+SQL> ALTER TABLE  CITY  ADD CONSTRAINT fk1_city  FOREIGN KEY (DEPARTMENT_ID)
+  2         REFERENCES DEPARTMENT (DEPARTMENT_ID);
+
+Table altered.
+
+SQL> ---------------------------------------------------------------------------------------
+SQL> ALTER TABLE  CLIENTS  ADD CONSTRAINT fk2_clients FOREIGN KEY (ZIP_CODE, CITY_NAME)
+  2         REFERENCES CITY (ZIP_CODE, CITY_NAME);
+
+Table altered.
+
+SQL> ---------------------------------------------------------------------------------------
+SQL> ALTER TABLE  PURCHASE  ADD CONSTRAINT fk1_purchase FOREIGN KEY (ZIP_CODE, CITY_NAME)
+  2         REFERENCES CITY (ZIP_CODE, CITY_NAME);
+
+Table altered.
+
+SQL> ---------------------------------------------------------------------------------------
+SQL> ALTER TABLE PURCHASE  ADD CONSTRAINT fk2_purchase FOREIGN KEY (CLIENT_ID)
+  2         REFERENCES CLIENTS(CLIENT_ID);
+
+Table altered.
+
+SQL> ---------------------------------------------------------------------------------------
+SQL> ALTER TABLE  PURCHASE ADD CONSTRAINT fk3_purchase  FOREIGN KEY (PRODUCT_ID)
+  2         REFERENCES PRODUCT(PRODUCT_ID);
+
+Table altered.
+
+SQL>
+SQL> CREATE SEQUENCE seq_country;
+
+Sequence created.
+
+SQL> CREATE SEQUENCE seq_region;
+
+Sequence created.
+
+SQL> CREATE SEQUENCE seq_department;
+
+Sequence created.
+
+SQL> CREATE SEQUENCE seq_city;
+
+Sequence created.
+
+SQL> CREATE SEQUENCE seq_clients;
+
+Sequence created.
+
+SQL> CREATE SEQUENCE seq_product;
+
+Sequence created.
+
+SQL> CREATE SEQUENCE seq_purchase;
+
+Sequence created.
+
+SQL> SET SERVEROUTPUT ON
+SQL>
+SQL> INSERT INTO  COUNTRY  VALUES ('AF', 'Afghanistan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AL', 'Albania');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('DZ', 'Algeria');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('DS', 'American Samoa');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AD', 'Andorra');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AO', 'Angola');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AI', 'Anguilla');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AQ', 'Antarctica');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AG', 'Antigua and Barbuda');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AR', 'Argentina');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AM', 'Armenia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AW', 'Aruba');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AU', 'Australia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AT', 'Austria');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AZ', 'Azerbaijan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BS', 'Bahamas');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BH', 'Bahrain');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BD', 'Bangladesh');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BB', 'Barbados');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BY', 'Belarus');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BE', 'Belgium');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BZ', 'Belize');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BJ', 'Benin');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BM', 'Bermuda');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BT', 'Bhutan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BO', 'Bolivia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BA', 'Bosnia and Herzegovina');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BW', 'Botswana');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BV', 'Bouvet Island');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BR', 'Brazil');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IO', 'British Indian Ocean Territory');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BN', 'Brunei Darussalam');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BG', 'Bulgaria');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BF', 'Burkina Faso');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('BI', 'Burundi');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KH', 'Cambodia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CM', 'Cameroon');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CA', 'Canada');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CV', 'Cape Verde');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KY', 'Cayman Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CF', 'Central African Republic');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TD', 'Chad');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CL', 'Chile');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CN', 'China');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CX', 'Christmas Island');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CC', 'Cocos (Keeling) Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CO', 'Colombia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KM', 'Comoros');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CD', 'Democratic Republic of the Congo');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CG', 'Republic of Congo');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CK', 'Cook Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CR', 'Costa Rica');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('HR', 'Croatia (Hrvatska)');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CU', 'Cuba');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CY', 'Cyprus');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CZ', 'Czech Republic');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('DK', 'Denmark');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('DJ', 'Djibouti');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('DM', 'Dominica');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('DO', 'Dominican Republic');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TP', 'East Timor');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('EC', 'Ecuador');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('EG', 'Egypt');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SV', 'El Salvador');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GQ', 'Equatorial Guinea');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ER', 'Eritrea');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('EE', 'Estonia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ET', 'Ethiopia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('FK', 'Falkland Islands (Malvinas)');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('FO', 'Faroe Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('FJ', 'Fiji');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('FI', 'Finland');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('FR', 'France');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('FX', 'France, Metropolitan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GF', 'French Guiana');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PF', 'French Polynesia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TF', 'French Southern Territories');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GA', 'Gabon');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GM', 'Gambia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GE', 'Georgia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('DE', 'Germany');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GH', 'Ghana');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GI', 'Gibraltar');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GK', 'Guernsey');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GR', 'Greece');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GL', 'Greenland');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GD', 'Grenada');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GP', 'Guadeloupe');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GU', 'Guam');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GT', 'Guatemala');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GN', 'Guinea');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GW', 'Guinea-Bissau');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GY', 'Guyana');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('HT', 'Haiti');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('HM', 'Heard and Mc Donald Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('HN', 'Honduras');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('HK', 'Hong Kong');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('HU', 'Hungary');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IS', 'Iceland');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IN', 'India');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IM', 'Isle of Man');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ID', 'Indonesia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IR', 'Iran (Islamic Republic of)');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IQ', 'Iraq');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IE', 'Ireland');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IL', 'Israel');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('IT', 'Italy');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CI', 'Ivory Coast');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('JE', 'Jersey');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('JM', 'Jamaica');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('JP', 'Japan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('JO', 'Jordan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KZ', 'Kazakhstan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KE', 'Kenya');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KI', 'Kiribati');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KP', 'Korea, Democratic People''s Republic of');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KR', 'Korea, Republic of');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('XK', 'Kosovo');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KW', 'Kuwait');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KG', 'Kyrgyzstan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LA', 'Lao People''s Democratic Republic');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LV', 'Latvia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LB', 'Lebanon');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LS', 'Lesotho');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LR', 'Liberia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LY', 'Libyan Arab Jamahiriya');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LI', 'Liechtenstein');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LT', 'Lithuania');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LU', 'Luxembourg');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MO', 'Macau');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MK', 'North Macedonia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MG', 'Madagascar');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MW', 'Malawi');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MY', 'Malaysia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MV', 'Maldives');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ML', 'Mali');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MT', 'Malta');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MH', 'Marshall Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MQ', 'Martinique');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MR', 'Mauritania');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MU', 'Mauritius');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TY', 'Mayotte');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MX', 'Mexico');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('FM', 'Micronesia, Federated States of');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MD', 'Moldova, Republic of');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MC', 'Monaco');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MN', 'Mongolia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ME', 'Montenegro');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MS', 'Montserrat');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MA', 'Morocco');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MZ', 'Mozambique');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MM', 'Myanmar');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NA', 'Namibia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NR', 'Nauru');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NP', 'Nepal');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NL', 'Netherlands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AN', 'Netherlands Antilles');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NC', 'New Caledonia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NZ', 'New Zealand');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NI', 'Nicaragua');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NE', 'Niger');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NG', 'Nigeria');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NU', 'Niue');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NF', 'Norfolk Island');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('MP', 'Northern Mariana Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('NO', 'Norway');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('OM', 'Oman');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PK', 'Pakistan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PW', 'Palau');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PS', 'Palestine');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PA', 'Panama');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PG', 'Papua New Guinea');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PY', 'Paraguay');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PE', 'Peru');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PH', 'Philippines');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PN', 'Pitcairn');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PL', 'Poland');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PT', 'Portugal');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PR', 'Puerto Rico');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('QA', 'Qatar');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('RE', 'Reunion');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('RO', 'Romania');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('RU', 'Russian Federation');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('RW', 'Rwanda');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('KN', 'Saint Kitts and Nevis');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LC', 'Saint Lucia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('VC', 'Saint Vincent and the Grenadines');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('WS', 'Samoa');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SM', 'San Marino');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ST', 'Sao Tome and Principe');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SA', 'Saudi Arabia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SN', 'Senegal');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('RS', 'Serbia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SC', 'Seychelles');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SL', 'Sierra Leone');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SG', 'Singapore');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SK', 'Slovakia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SI', 'Slovenia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SB', 'Solomon Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SO', 'Somalia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ZA', 'South Africa');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GS', 'South Georgia South Sandwich Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SS', 'South Sudan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ES', 'Spain');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('LK', 'Sri Lanka');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SH', 'St. Helena');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('PM', 'St. Pierre and Miquelon');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SD', 'Sudan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SR', 'Suriname');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SJ', 'Svalbard and Jan Mayen Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SZ', 'Swaziland');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SE', 'Sweden');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('CH', 'Switzerland');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('SY', 'Syrian Arab Republic');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TW', 'Taiwan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TJ', 'Tajikistan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TZ', 'Tanzania, United Republic of');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TH', 'Thailand');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TG', 'Togo');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TK', 'Tokelau');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TO', 'Tonga');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TT', 'Trinidad and Tobago');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TN', 'Tunisia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TR', 'Turkey');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TM', 'Turkmenistan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TC', 'Turks and Caicos Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('TV', 'Tuvalu');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('UG', 'Uganda');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('UA', 'Ukraine');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('AE', 'United Arab Emirates');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('GB', 'United Kingdom');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('US', 'United States');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('UM', 'United States minor outlying islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('UY', 'Uruguay');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('UZ', 'Uzbekistan');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('VU', 'Vanuatu');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('VA', 'Vatican City State');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('VE', 'Venezuela');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('VN', 'Vietnam');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('VG', 'Virgin Islands (British)');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('VI', 'Virgin Islands (U.S.)');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('WF', 'Wallis and Futuna Islands');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('EH', 'Western Sahara');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('YE', 'Yemen');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ZM', 'Zambia');
+
+1 row created.
+
+SQL> INSERT INTO  COUNTRY  VALUES ('ZW', 'Zimbabwe');
+
+1 row created.
+
+SQL> CREATE OR REPLACE PROCEDURE data_region  AS
+  2  M_REGION_NAME  VARCHAR2(62);
+  3      M_REGION_ID  NUMBER(9);
+  4  M_COUNTRY_ID VARCHAR(10);
+  5  BEGIN
+  6  FOR i IN 1..2460
+  7  LOOP
+  8  M_REGION_ID  := seq_region.nextval;
+  9  SELECT dbms_random.STRING('A', 10) INTO M_REGION_NAME FROM dual;
+ 10  SELECT COUNTRY_ID INTO M_COUNTRY_ID  FROM ( SELECT COUNTRY_ID FROM COUNTRY ORDER BY dbms_random.value ) WHERE rownum = 1;
+ 11  INSERT INTO REGION VALUES(M_REGION_ID,M_REGION_NAME, M_COUNTRY_ID);
+ 12  END LOOP;
+ 13
+ 14  END data_region;
+ 15  /
+
+Procedure created.
+
+SQL>
+SQL> EXEC data_region;
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT COUNT(*) FROM REGION;
+
+  COUNT(*)
+----------
+      2460
+
+SQL> CREATE OR REPLACE PROCEDURE data_department  AS
+  2
+  3      M_DEPARTMENT_ID  NUMBER(9);
+  4      M_DEPARTMENT_NAME VARCHAR2(62);
+  5      M_REGION_ID  NUMBER(9);
+  6  num_1 INTEGER;
+  7  BEGIN
+  8  FOR i IN 1..1000
+  9    LOOP
+ 10     ------------ CREATING RANDOM DEPARTMENT  ------------
+ 11      num_1 := dbms_random.value(1,31);
+ 12      M_DEPARTMENT_NAME  := (CASE num_1
+ 13  WHEN 1 THEN 'deptname1'
+ 14  WHEN 2 THEN 'deptname2'
+ 15  WHEN 3 THEN 'deptname3'
+ 16  WHEN 4 THEN 'deptname4'
+ 17  WHEN 5 THEN 'deptname5'
+ 18  WHEN 6 THEN 'deptname6'
+ 19  WHEN 7 THEN 'deptname7'
+ 20  WHEN 8 THEN 'deptname8'
+ 21  WHEN 10 THEN 'deptname9'
+ 22  WHEN 11 THEN 'deptname10'
+ 23  WHEN 12 THEN 'deptname11'
+ 24  WHEN 13 THEN 'deptname12'
+ 25  WHEN 14 THEN 'deptname13'
+ 26  WHEN 15 THEN 'deptname14'
+ 27  WHEN 16 THEN 'deptname15'
+ 28  WHEN 17 THEN 'deptname16'
+ 29  WHEN 18 THEN 'deptname17'
+ 30  WHEN 19 THEN 'deptname18'
+ 31  WHEN 20 THEN 'deptname19'
+ 32  WHEN 21 THEN 'deptname20'
+ 33  WHEN 22 THEN 'deptname21'
+ 34  WHEN 23 THEN 'deptname22'
+ 35  WHEN 24 THEN 'deptname23'
+ 36  WHEN 25 THEN 'deptname24'
+ 37  WHEN 26 THEN 'deptname25'
+ 38  WHEN 27 THEN 'deptname26'
+ 39  WHEN 28 THEN 'deptname27'
+ 40  WHEN 29 THEN 'deptname28'
+ 41  WHEN 30 THEN 'deptname29'
+ 42  WHEN 31 THEN 'deptname30'
+ 43  END);
+ 44
+ 45  M_DEPARTMENT_ID  := seq_department.nextval;
+ 46  SELECT REGION_ID INTO M_REGION_ID  FROM ( SELECT REGION_ID FROM REGION ORDER BY dbms_random.value ) WHERE rownum = 1;
+ 47          INSERT INTO department VALUES(M_DEPARTMENT_ID,M_DEPARTMENT_NAME, M_REGION_ID);
+ 48   END LOOP;
+ 49
+ 50  END data_department;
+ 51  /
+
+Procedure created.
+
+SQL>
+SQL> EXEC data_department;
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL> SELECT COUNT(*) FROM DEPARTMENT;
+
+  COUNT(*)
+----------
+      1000
+
+SQL> CREATE OR REPLACE PROCEDURE data_city  AS
+  2
+  3      M_ZIP_CODE NUMBER(9);
+  4      M_CITY_NAME  VARCHAR2(10);
+  5  M_DEPARTMENT_ID  NUMBER(9);
+  6  num_1 INTEGER;
+  7
+  8  BEGIN
+  9  FOR i IN 1..2000
+ 10    LOOP
+ 11    ------------ CREATING RANDOM ZIPCODE  ------------
+ 12
+ 13  M_ZIP_CODE  := seq_department.nextval;
+ 14               ------------ CREATING RANDOM CITY  ------------
+ 15  num_1 := dbms_random.value(1,20);
+ 16   M_CITY_NAME  := (CASE num_1
+ 17  WHEN 1 THEN 'city1'
+ 18  WHEN 2 THEN 'city2'
+ 19          WHEN 3 THEN 'city3'
+ 20  WHEN 4 THEN 'city4'
+ 21  WHEN 5 THEN 'cityy5'
+ 22          WHEN 6 THEN 'city6 '
+ 23          WHEN 7 THEN 'city7 '
+ 24          WHEN 8 THEN 'city8 '
+ 25          WHEN 9 THEN 'city9 '
+ 26          WHEN 10 THEN 'city10 '
+ 27          WHEN 11 THEN 'city11 '
+ 28          WHEN 12 THEN 'city12 '
+ 29          WHEN 13 THEN 'city13 '
+ 30          WHEN 14 THEN 'city14 '
+ 31          WHEN 15 THEN 'city15 '
+ 32          WHEN 16 THEN 'city16 '
+ 33          WHEN 17 THEN 'city17 '
+ 34          WHEN 18 THEN 'city18 '
+ 35          WHEN 19 THEN 'city19 '
+ 36          WHEN 20 THEN 'city20 '
+ 37          WHEN 21 THEN 'city21 '
+ 38          WHEN 22 THEN 'city22 '
+ 39          WHEN 23 THEN 'city23 '
+ 40          WHEN 24 THEN 'city24 '
+ 41          WHEN 25 THEN 'city25 '
+ 42          WHEN 26 THEN 'city26 '
+ 43          WHEN 27 THEN 'city27 '
+ 44          WHEN 28 THEN 'city28 '
+ 45          WHEN 29 THEN 'city29 '
+ 46          WHEN 30 THEN 'city30 '
+ 47          WHEN 31 THEN 'city31 '
+ 48          WHEN 32 THEN 'city32 '
+ 49          WHEN 33 THEN 'city33 '
+ 50          WHEN 34 THEN 'city34 '
+ 51          WHEN 35 THEN 'city35 '
+ 52          WHEN 36 THEN 'city36 '
+ 53          WHEN 37 THEN 'city37 '
+ 54          WHEN 38 THEN 'city38 '
+ 55          WHEN 39 THEN 'city39 '
+ 56          WHEN 40 THEN 'city40 '
+ 57          WHEN 41 THEN 'city41 '
+ 58          WHEN 42 THEN 'city42 '
+ 59          WHEN 43 THEN 'city43 '
+ 60          WHEN 44 THEN 'city44 '
+ 61          WHEN 45 THEN 'city45 '
+ 62          WHEN 46 THEN 'city46 '
+ 63          WHEN 47 THEN 'city47 '
+ 64          WHEN 48 THEN 'city48 '
+ 65          WHEN 49 THEN 'city49'
+ 66          WHEN 50 THEN 'city50 '
+ 67  END);
+ 68
+ 69    SELECT DEPARTMENT_ID INTO M_DEPARTMENT_ID  FROM ( SELECT DEPARTMENT_ID FROM DEPARTMENT ORDER BY dbms_random.value ) WHERE rownum = 1;
+ 70
+ 71        INSERT INTO city VALUES(M_ZIP_CODE,M_CITY_NAME,M_DEPARTMENT_ID);
+ 72
+ 73    END LOOP;
+ 74
+ 75  END data_city;
+ 76  /
+
+Procedure created.
+
+SQL>
+SQL> EXEC data_city;
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT COUNT(*) FROM CITY;
+
+  COUNT(*)
+----------
+      2000
+
+SQL> CREATE OR REPLACE PROCEDURE data_client  AS
+  2  M_ZIP_CODE NUMBER(9);
+  3      M_CITY_NAME  VARCHAR2(10);
+  4  num_1 INTEGER;
+  5      M_CLIENT_ID  NUMBER(9);
+  6      M_FIRST_NAME   VARCHAR(62);
+  7      M_LAST_NAME  VARCHAR(62);
+  8      M_BIRTHDATE  DATE;
+  9      M_GENDER   VARCHAR2(5);
+ 10
+ 11  BEGIN
+ 12  FOR i IN 1..2500
+ 13    LOOP
+ 14      ------------ CREATING RANDOM GENDER  ------------
+ 15      num_1  := dbms_random.value(1,2);
+ 16  M_GENDER  := (CASE num_1
+ 17  WHEN 1 THEN 'M'
+ 18  WHEN 2 THEN 'F'
+ 19  END);
+ 20  SELECT TO_DATE(
+ 21                TRUNC(
+ 22                     DBMS_RANDOM.VALUE(TO_CHAR(DATE '1970-01-01','J')
+ 23                                      ,TO_CHAR(DATE '2019-12-31','J')
+ 24                                      )
+ 25                      ),'J'
+ 26                 ) INTO M_BIRTHDATE FROM DUAL;
+ 27
+ 28     M_CLIENT_ID  := seq_clients.nextval;
+ 29
+ 30
+ 31     SELECT ZIP_CODE, CITY_NAME INTO M_ZIP_CODE,M_CITY_NAME FROM ( SELECT city.ZIP_CODE, city.CITY_NAME FROM city WHERE city.CITY_NAME LIKE '%'
+ 32     ORDER BY dbms_random.value ) WHERE ROWNUM < 2;
+ 33
+ 34     SELECT dbms_random.STRING('A', 10) into M_FIRST_NAME from dual;
+ 35     SELECT dbms_random.STRING('A', 10) into M_LAST_NAME from dual;
+ 36
+ 37     INSERT INTO clients  VALUES(M_CLIENT_ID,M_FIRST_NAME, M_LAST_NAME,M_BIRTHDATE,M_GENDER,M_ZIP_CODE,M_CITY_NAME);
+ 38
+ 39
+ 40    END LOOP;
+ 41
+ 42  END data_client;
+ 43  /
+
+Procedure created.
+
+SQL>
+SQL> EXEC data_client;
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT COUNT(*) FROM CLIENTS;
+
+  COUNT(*)
+----------
+      2500
+
+SQL> CREATE OR REPLACE PROCEDURE data_product  AS
+  2
+  3  M_PRODUCT_ID  NUMBER(9);
+  4      M_PROD_DESCRIPTION   VARCHAR2(30);
+  5      M_PROD_PRICE   NUMBER(9);
+  6      M_PROD_TYPE  VARCHAR2(9);
+  7  M_QUANTITY  NUMBER(9);
+  8  num_1 INTEGER;
+  9
+ 10  BEGIN
+ 11
+ 12  FOR i IN 1..3000
+ 13  LOOP
+ 14
+ 15
+ 16
+ 17  ------------ CREATING RANDOM PRODUCT DESCRIPTION  ------------
+ 18  num_1 := dbms_random.value(1,5);
+ 19  M_PROD_DESCRIPTION  := (CASE num_1
+ 20  WHEN 1 THEN 'Proddes1'
+ 21  WHEN 2 THEN 'Proddes2'
+ 22  WHEN 3 THEN 'Proddes3'
+ 23  WHEN 4 THEN 'Proddes4'
+ 24  WHEN 5 THEN 'Proddes5'
+ 25  END);
+ 26
+ 27  ------------ CREATING RANDOM PRODUCT PRICE  ------------
+ 28  num_1 := round(dbms_random.value(1,9999));
+ 29  M_PROD_PRICE  := num_1;
+ 30
+ 31      ------------ CREATING RANDOM PRODUCT TYPE  ------------
+ 32      num_1 := dbms_random.value(1,5);
+ 33  M_PROD_TYPE  := (CASE num_1
+ 34  WHEN 1 THEN 'prod1'
+ 35  WHEN 2 THEN 'prod2'
+ 36  WHEN 3 THEN 'prod3'
+ 37  WHEN 4 THEN 'prod4'
+ 38  WHEN 5 THEN 'prod5'
+ 39  END);
+ 40
+ 41  M_PRODUCT_ID  := seq_product.nextval;
+ 42
+ 43     INSERT INTO PRODUCT VALUES(M_PRODUCT_ID,M_PROD_DESCRIPTION,M_PROD_PRICE,M_PROD_TYPE);
+ 44
+ 45    END LOOP;
+ 46
+ 47  END data_product;
+ 48  /
+
+Procedure created.
+
+SQL>
+SQL> EXEC data_product;
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT COUNT(*) FROM PRODUCT;
+
+  COUNT(*)
+----------
+      3000
+
+SQL> CREATE OR REPLACE PROCEDURE data_purchase  AS
+  2
+  3      M_ZIP_CODE NUMBER(9);
+  4      M_CITY_NAME  VARCHAR2(10);
+  5      M_CLIENT_ID  NUMBER(9);
+  6      M_QUANTITY  NUMBER(9);
+  7      M_TIME_STAMP  TIMESTAMP;
+  8      M_PRODUCT_ID  NUMBER(9);
+  9      num_1 INTEGER;
+ 10
+ 11  BEGIN
+ 12
+ 13    FOR i IN 1..3000
+ 14    LOOP
+ 15
+ 16    ------------ CREATING RANDOM QUANTITY  ------------
+ 17  num_1 := round(dbms_random.value(1,100));
+ 18
+ 19  M_QUANTITY  := num_1;
+ 20
+ 21     SELECT ZIP_CODE, CITY_NAME INTO M_ZIP_CODE,M_CITY_NAME FROM ( SELECT city.ZIP_CODE, city.CITY_NAME FROM city WHERE city.CITY_NAME LIKE '%'
+ 22     ORDER BY dbms_random.value ) WHERE ROWNUM < 2;
+ 23
+ 24     SELECT CLIENT_ID INTO M_CLIENT_ID FROM ( SELECT CLIENT_ID FROM CLIENTS ORDER BY dbms_random.value ) WHERE rownum = 1;
+ 25     SELECT PRODUCT_ID INTO M_PRODUCT_ID FROM ( SELECT PRODUCT_ID FROM PRODUCT ORDER BY dbms_random.value ) WHERE rownum = 1;
+ 26     SELECT TO_DATE('01-01-2009','mm-dd-yyyy') + dbms_random.VALUE(0,86400*(to_date('01-JAN-2009', 'dd-mm-yyyy') -
+ 27  to_date('10-DEC-2019', 'dd-mm-yyyy'))+1)/86400 INTO M_TIME_STAMP FROM dual;
+ 28     INSERT INTO purchase VALUES(M_QUANTITY,M_ZIP_CODE,M_CITY_NAME, M_CLIENT_ID,  M_PRODUCT_ID,M_TIME_STAMP);
+ 29
+ 30    end loop;
+ 31
+ 32  END data_purchase;
+ 33  /
+
+Procedure created.
+
+SQL>
+SQL> EXEC data_purchase;
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT COUNT(*) FROM PURCHASE;
+
+  COUNT(*)
+----------
+      3000
+
+SQL>
