@@ -20,7 +20,7 @@ The sales manager wants:
     4. By department and region. 
 
 4.	A procedure to generate
-    1. receives two dates and supplies the fact table from operational for all orders made between two dates 
+    1. Supply chain analysis (Inventory, sales in a given time period) 
 
 ## Data Model
 |Type|Data Model|
